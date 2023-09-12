@@ -15,16 +15,16 @@ public class Lexer {
 
     public Lexer() {
         singleCharToTokenType = new HashMap<>();
-        singleCharToTokenType.put("(", TokenType.OpenParen);
-        singleCharToTokenType.put(")", TokenType.CloseParen);
-        singleCharToTokenType.put("+", TokenType.BinaryOperator);
-        singleCharToTokenType.put("-", TokenType.BinaryOperator);
-        singleCharToTokenType.put("*", TokenType.BinaryOperator);
-        singleCharToTokenType.put("/", TokenType.BinaryOperator);
-        singleCharToTokenType.put("=", TokenType.Equals);
+        singleCharToTokenType.put("(", TokenType.OPEN_PARENTHESIS);
+        singleCharToTokenType.put(")", TokenType.CLOSE_PARENTHESIS);
+        singleCharToTokenType.put("+", TokenType.BINARY_OPERATOR);
+        singleCharToTokenType.put("-", TokenType.BINARY_OPERATOR);
+        singleCharToTokenType.put("*", TokenType.BINARY_OPERATOR);
+        singleCharToTokenType.put("/", TokenType.BINARY_OPERATOR);
+        singleCharToTokenType.put("=", TokenType.EQUAL);
 
         keywords = new HashMap<>();
-        keywords.put("let", TokenType.Let);
+        keywords.put("let", TokenType.LET);
     }
 
     public List<Token> tokenize(String sourceCode) {
@@ -64,7 +64,7 @@ public class Lexer {
                 }
 
                 String finalNumber = numberBuilder.toString();
-                tokens.add(new Token(finalNumber, TokenType.Number));
+                tokens.add(new Token(finalNumber, TokenType.NUMBER));
                 continue;
             }
 
@@ -84,13 +84,14 @@ public class Lexer {
 
                 String finalWord = wordBuilder.toString();
                 TokenType preservedType = keywords.get(finalWord);
-                TokenType finalTokenType = preservedType == null ? TokenType.Identifier : preservedType;
+                TokenType finalTokenType = preservedType == null ? TokenType.IDENTIFIER : preservedType;
                 tokens.add(new Token(finalWord, finalTokenType));
                 continue;
             }
 
             // undetermined char
-            System.out.println(value);
+            System.out.println("Unrecognized token " + value);
+            index++;
         }
         return tokens;
     }

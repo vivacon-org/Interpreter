@@ -22,7 +22,7 @@ public class KickOff {
                 Iterator<Token> tokens = tokenize.iterator();
                 while (tokens.hasNext()) {
                     Token token = tokens.next();
-                    System.out.print(token + "    ");
+                    System.out.println(token + "    ");
                 }
 
                 System.out.println();

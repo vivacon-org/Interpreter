@@ -2,13 +2,11 @@ package org.hungdoan.lang;
 
 public enum TokenType {
 
-    Number,
-    Identifier,
-    Equals,
-
-    OpenParen,
-    CloseParen,
-
-    BinaryOperator,
-    Let
+    NUMBER,
+    IDENTIFIER,
+    EQUAL,
+    OPEN_PARENTHESIS,
+    CLOSE_PARENTHESIS,
+    BINARY_OPERATOR,
+    LET
 }
