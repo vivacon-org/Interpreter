@@ -8,6 +8,13 @@ public class BinaryExpression extends Expression {
     private String operator;
 
     public BinaryExpression() {
-        this.kind = NodeType.BINARY_EXPRESSION;
+        super(NodeType.BINARY_EXPRESSION);
+    }
+
+    public BinaryExpression(Expression left, Expression right, String operator) {
+        super(NodeType.BINARY_EXPRESSION);
+        this.left = left;
+        this.right = right;
+        this.operator = operator;
     }
 }

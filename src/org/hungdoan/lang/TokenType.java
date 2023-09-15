@@ -8,5 +8,7 @@ public enum TokenType {
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
     BINARY_OPERATOR,
-    LET
+    LET,
+    CONST,
+    EOF
 }

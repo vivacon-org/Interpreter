@@ -5,6 +5,11 @@ public class Identifier extends Expression {
     private String symbol;
 
     public Identifier() {
-        this.kind = NodeType.IDENTIFIER;
+        super(NodeType.IDENTIFIER);
+    }
+
+    public Identifier(String symbol) {
+        super(NodeType.IDENTIFIER);
+        this.symbol = symbol;
     }
 }

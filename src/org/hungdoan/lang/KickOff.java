@@ -1,35 +1,27 @@
 package org.hungdoan.lang;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Deque;
 import java.util.Iterator;
-import java.util.List;
 
 public class KickOff {
 
     public static void main(String[] args) {
+        lexer();
+    }
 
-        System.out.println("Tokenizing process");
-        Lexer lexer = new Lexer();
+    private static void ast() {
         String filePath = "./src/resource/test.hung";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        new Parser().produceAST(filePath);
+    }
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-
-                List<Token> tokenize = lexer.tokenize(line);
-                Iterator<Token> tokens = tokenize.iterator();
-                while (tokens.hasNext()) {
-                    Token token = tokens.next();
-                    System.out.println(token + "    ");
-                }
-
-                System.out.println();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static void lexer() {
+        String filePath = "./src/resource/test.hung";
+        Deque<Token> tokenize = new Lexer().tokenize(filePath);
+        Iterator<Token> tokens = tokenize.iterator();
+        while (tokens.hasNext()) {
+            Token token = tokens.next();
+            System.out.print(token + "    ");
         }
+        System.out.println();
     }
 }

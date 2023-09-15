@@ -2,13 +2,22 @@ package org.hungdoan.lang;
 
 public class Token {
 
-    protected String value;
+    private String value;
 
-    protected TokenType type;
+    private TokenType type;
 
-    public Token(String value, TokenType type) {
+    private Location location;
+
+    public Token(String value, TokenType type, int offset, int startLine, int startColumn) {
         this.value = value;
         this.type = type;
+        this.location = new Location(offset, startLine, startColumn);
+    }
+
+    public Token(String value, TokenType type, Location location) {
+        this.value = value;
+        this.type = type;
+        this.location = location;
     }
 
     public String getValue() {
@@ -21,6 +30,10 @@ public class Token {
 
     @Override
     public String toString() {
-        return "{ type: " + getType() + " - Value: " + getValue() + " }";
+        return "Token{" +
+                "value='" + value + '\'' +
+                ", type=" + type +
+                ", location=" + location.toString() +
+                '}';
     }
 }

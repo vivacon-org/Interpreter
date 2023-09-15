@@ -5,6 +5,11 @@ public class NumericLiteral extends Expression {
     private int value;
 
     public NumericLiteral() {
-        this.kind = NodeType.NUMERIC_LITERAL;
+        super(NodeType.NUMERIC_LITERAL);
+    }
+
+    public NumericLiteral(int value) {
+        super(NodeType.NUMERIC_LITERAL);
+        this.value = value;
     }
 }
