@@ -28,6 +28,10 @@ public class Token {
         return type;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     @Override
     public String toString() {
         return "Token{" +

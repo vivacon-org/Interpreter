@@ -13,10 +13,8 @@ public class Lexer {
     // let x = 45 + { foot + bar}
     // [ LetToken, IdentifierTk, EqualsToken, NumberToken ]
     private Map<String, TokenType> singleCharToTokenType;
-
     private Map<String, TokenType> keywordToTokenType;
-
-    private int offset = 0;
+    private int startOffset = 0;
     private int startLine = 0;
     private int startColumn = 0;
 
@@ -46,7 +44,7 @@ public class Lexer {
                 tokens = tokenizeEachLineOfCode(eachLineCode, tokens);
                 startLine++;
             }
-            tokens.add(new Token("End Of File", TokenType.EOF, offset, startLine, 0));
+            tokens.add(new Token("End Of File", TokenType.EOF, startOffset, startLine, 0));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,22 +54,22 @@ public class Lexer {
 
     private Deque<Token> tokenizeEachLineOfCode(String eachLineSource, Deque<Token> token) {
         Deque<Token> resultTokens = new LinkedList<>(token);
-        String[] splitValues = eachLineSource.split("");
-        for (startColumn = 0; startColumn < splitValues.length; ) {
-            String value = splitValues[startColumn];
+        String[] charArray = eachLineSource.split("");
+        for (startColumn = 0; startColumn < charArray.length; ) {
+            String value = charArray[startColumn];
 
-            // skippable chars
+            // skip chars
             if (isOmitted(value)) {
                 startColumn++;
-                offset++;
+                startOffset++;
                 continue;
             }
 
             // single char
             if (singleCharToTokenType.containsKey(value)) {
-                resultTokens.add(new Token(value, singleCharToTokenType.get(value), offset, startLine, startColumn));
+                resultTokens.add(new Token(value, singleCharToTokenType.get(value), startOffset, startLine, startColumn));
                 startColumn++;
-                offset++;
+                startOffset++;
                 continue;
             }
 
@@ -80,51 +78,53 @@ public class Lexer {
             // number
             if (isDigit(value)) {
                 StringBuilder numberBuilder = new StringBuilder();
-                int startOffset = offset;
+                int originalStartOffset = this.startOffset;
+                int originalStartColumn = startColumn;
                 while (isDigit(value)) {
                     numberBuilder.append(value);
                     startColumn++;
-                    offset++;
+                    this.startOffset++;
 
-                    if (startColumn >= splitValues.length) {
+                    if (startColumn >= charArray.length) {
                         break;
                     }
 
-                    value = splitValues[startColumn];
+                    value = charArray[startColumn];
                 }
 
                 String finalNumber = numberBuilder.toString();
-                resultTokens.add(new Token(finalNumber, TokenType.NUMBER, startOffset, startLine, startColumn));
+                resultTokens.add(new Token(finalNumber, TokenType.NUMBER, originalStartOffset, startLine, originalStartColumn));
                 continue;
             }
 
             // sequence chars
             if (isAlpha(value)) {
                 StringBuilder wordBuilder = new StringBuilder();
-                int startOffset = offset;
+                int originalStartOffset = this.startOffset;
+                int originalStartColumn = startColumn;
                 while (isAlpha(value)) {
                     wordBuilder.append(value);
                     startColumn++;
-                    offset++;
+                    this.startOffset++;
 
-                    if (startColumn >= splitValues.length) {
+                    if (startColumn >= charArray.length) {
                         break;
                     }
 
-                    value = splitValues[startColumn];
+                    value = charArray[startColumn];
                 }
 
                 String finalWord = wordBuilder.toString();
                 TokenType preservedType = keywordToTokenType.get(finalWord);
                 TokenType finalTokenType = preservedType == null ? TokenType.IDENTIFIER : preservedType;
-                resultTokens.add(new Token(finalWord, finalTokenType, startOffset, startLine, startColumn));
+                resultTokens.add(new Token(finalWord, finalTokenType, originalStartOffset, startLine, originalStartColumn));
                 continue;
             }
 
             // undetermined char
             System.out.println("Unrecognized token " + value);
             startColumn++;
-            offset++;
+            startOffset++;
         }
         return resultTokens;
     }

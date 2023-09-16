@@ -18,7 +18,9 @@ public class Parser {
         Lexer lexer = new Lexer();
         CompilationUnit program = new CompilationUnit();
         tokens = lexer.tokenize(filePath);
-        program.getBody().push(parseStatements());
+        while (isNextTokenEOF() == false) {
+            program.getBody().add(parseStatements());
+        }
         return program;
     }
 
@@ -40,7 +42,7 @@ public class Parser {
         if (Arrays.asList(operators).contains(currentValue)) {
             String operator = nextToken().getValue();
             Expression rightSide = parseMultitiveExpression();
-            return new BinaryExpression(leftSide, rightSide, operator);
+            return new BinaryExpression(leftSide, rightSide, operator, leftSide.getLocation());
         }
         return leftSide;
     }
@@ -53,7 +55,7 @@ public class Parser {
         if (Arrays.asList(operators).contains(currentValue)) {
             String operator = nextToken().getValue();
             Expression rightSide = parsePrimaryExpression();
-            return new BinaryExpression(leftSide, rightSide, operator);
+            return new BinaryExpression(leftSide, rightSide, operator, leftSide.getLocation());
         }
         return leftSide;
     }
@@ -66,18 +68,20 @@ public class Parser {
         switch (token.getType()) {
 
             case NUMBER: {
-                finalExpression = new NumericLiteral(Integer.parseInt(nextToken().getValue()));
+                Token currentToken = nextToken();
+                finalExpression = new NumericLiteral(Integer.parseInt(currentToken.getValue()), currentToken.getLocation());
                 break;
             }
             case IDENTIFIER: {
-                finalExpression = new Identifier(nextToken().getValue());
+                Token currentToken = nextToken();
+                finalExpression = new Identifier(currentToken.getValue(), currentToken.getLocation());
                 break;
             }
             case OPEN_PARENTHESIS: {
                 nextToken();
-                Expression value = parseExpression();
+                Expression expressionInParens = parseExpression();
                 expectToken(TokenType.CLOSE_PARENTHESIS, "Unexpected token found, expect Close Paren");
-                finalExpression = value;
+                finalExpression = expressionInParens;
                 break;
             }
             default: {

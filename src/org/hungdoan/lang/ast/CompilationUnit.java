@@ -1,5 +1,7 @@
 package org.hungdoan.lang.ast;
 
+import org.hungdoan.lang.Location;
+
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -8,12 +10,12 @@ public class CompilationUnit extends Statement {
     private Deque<Statement> body;
 
     public CompilationUnit() {
-        this.kind = NodeType.PROGRAM;
+        super(NodeType.PROGRAM, new Location(0, 0, 0));
         this.body = new LinkedList<>();
     }
 
     public CompilationUnit(Deque<Statement> body) {
-        this.kind = NodeType.PROGRAM;
+        super(NodeType.PROGRAM, new Location(0, 0, 0));
         this.body = body;
     }
 

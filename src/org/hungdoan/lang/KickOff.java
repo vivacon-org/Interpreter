@@ -1,17 +1,19 @@
 package org.hungdoan.lang;
 
+import org.hungdoan.lang.ast.Statement;
+
 import java.util.Deque;
 import java.util.Iterator;
 
 public class KickOff {
 
     public static void main(String[] args) {
-        lexer();
+        parser();
     }
 
-    private static void ast() {
+    private static void parser() {
         String filePath = "./src/resource/test.hung";
-        new Parser().produceAST(filePath);
+        Statement statement = new Parser().produceAST(filePath);
     }
 
     private static void lexer() {
