@@ -1,6 +1,6 @@
-package org.hungdoan.lang.ast;
+package org.hungdoan.lang.parser;
 
-import org.hungdoan.lang.Location;
+import org.hungdoan.lang.lexer.Location;
 
 public class BinaryExpression extends Expression {
     private Expression left;

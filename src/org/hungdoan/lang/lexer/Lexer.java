@@ -1,7 +1,6 @@
-package org.hungdoan.lang;
+package org.hungdoan.lang.lexer;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.HashMap;
@@ -9,14 +8,11 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Lexer {
-
-    // let x = 45 + { foot + bar}
-    // [ LetToken, IdentifierTk, EqualsToken, NumberToken ]
     private Map<String, TokenType> singleCharToTokenType;
     private Map<String, TokenType> keywordToTokenType;
-    private int startOffset = 0;
-    private int startLine = 0;
-    private int startColumn = 0;
+    private int startOffset;
+    private int startLine;
+    private int startColumn;
 
     public Lexer() {
         singleCharToTokenType = new HashMap<>();
@@ -31,29 +27,46 @@ public class Lexer {
         keywordToTokenType = new HashMap<>();
         keywordToTokenType.put("let", TokenType.LET);
         keywordToTokenType.put("const", TokenType.CONST);
+        keywordToTokenType.put("null", TokenType.NULL);
+
+        startOffset = 0;
+        startLine = 0;
+        startColumn = 0;
     }
 
-    public Deque<Token> tokenize(String filePath) {
+    public Deque<Token> tokenize(BufferedReader reader) {
+        try {
+            String eachLineCodec = "";
+            Deque<Token> tokens = new LinkedList<>();
 
-        Deque<Token> tokens = new LinkedList<>();
-        String eachLineCode = null;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-
-            while ((eachLineCode = reader.readLine()) != null) {
-                tokens = tokenizeEachLineOfCode(eachLineCode, tokens);
+            while ((eachLineCodec = reader.readLine()) != null) {
+                tokens.addAll(tokenizeEachLine(eachLineCodec));
                 startLine++;
             }
-            tokens.add(new Token("End Of File", TokenType.EOF, startOffset, startLine, 0));
 
+            tokens.add(new Token("End Of File", TokenType.EOF, startOffset, startLine, 0));
+            return tokens;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+    }
+
+    public Deque<Token> tokenize(String sourceCode) {
+        String[] lines = sourceCode.split("\n");
+        Deque<Token> tokens = new LinkedList<>();
+
+        for (int index = 0; index < lines.length; index++) {
+            String eachLine = lines[index];
+            tokens.addAll(tokenizeEachLine(eachLine));
+            startLine++;
+        }
+
+        tokens.add(new Token("End Of File", TokenType.EOF, startOffset, startLine, 0));
         return tokens;
     }
 
-    private Deque<Token> tokenizeEachLineOfCode(String eachLineSource, Deque<Token> token) {
-        Deque<Token> resultTokens = new LinkedList<>(token);
+    private Deque<Token> tokenizeEachLine(String eachLineSource) {
+        Deque<Token> resultTokens = new LinkedList<>();
         String[] charArray = eachLineSource.split("");
         for (startColumn = 0; startColumn < charArray.length; ) {
             String value = charArray[startColumn];
@@ -78,12 +91,12 @@ public class Lexer {
             // number
             if (isDigit(value)) {
                 StringBuilder numberBuilder = new StringBuilder();
-                int originalStartOffset = this.startOffset;
+                int originalStartOffset = startOffset;
                 int originalStartColumn = startColumn;
                 while (isDigit(value)) {
                     numberBuilder.append(value);
                     startColumn++;
-                    this.startOffset++;
+                    startOffset++;
 
                     if (startColumn >= charArray.length) {
                         break;
@@ -100,12 +113,12 @@ public class Lexer {
             // sequence chars
             if (isAlpha(value)) {
                 StringBuilder wordBuilder = new StringBuilder();
-                int originalStartOffset = this.startOffset;
+                int originalStartOffset = startOffset;
                 int originalStartColumn = startColumn;
                 while (isAlpha(value)) {
                     wordBuilder.append(value);
                     startColumn++;
-                    this.startOffset++;
+                    startOffset++;
 
                     if (startColumn >= charArray.length) {
                         break;
@@ -121,7 +134,7 @@ public class Lexer {
                 continue;
             }
 
-            // undetermined char
+            // undetermined chars
             System.out.println("Unrecognized token " + value);
             startColumn++;
             startOffset++;

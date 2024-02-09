@@ -1,4 +1,4 @@
-package org.hungdoan.lang;
+package org.hungdoan.lang.lexer;
 
 public class Token {
 

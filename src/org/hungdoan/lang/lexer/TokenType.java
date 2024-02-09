@@ -1,8 +1,9 @@
-package org.hungdoan.lang;
+package org.hungdoan.lang.lexer;
 
 public enum TokenType {
 
     NUMBER,
+    NULL,
     IDENTIFIER,
     EQUAL,
     OPEN_PARENTHESIS,

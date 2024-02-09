@@ -1,20 +1,20 @@
-package org.hungdoan.lang.ast;
+package org.hungdoan.lang.parser;
 
-import org.hungdoan.lang.Location;
+import org.hungdoan.lang.lexer.Location;
 
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class CompilationUnit extends Statement {
+public class Program extends Statement {
 
     private Deque<Statement> body;
 
-    public CompilationUnit() {
+    public Program() {
         super(NodeType.PROGRAM, new Location(0, 0, 0));
         this.body = new LinkedList<>();
     }
 
-    public CompilationUnit(Deque<Statement> body) {
+    public Program(Deque<Statement> body) {
         super(NodeType.PROGRAM, new Location(0, 0, 0));
         this.body = body;
     }
