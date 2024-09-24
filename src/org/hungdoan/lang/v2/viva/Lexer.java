@@ -9,11 +9,11 @@ import static org.hungdoan.lang.v2.viva.TokenType.*;
 
 class Lexer {
 
-    private int start_lexeme_offset = 0;
+    private int start_lexeme_offset;
 
-    private int current_offset = 0;
+    private int current_offset;
 
-    private int current_line = 1;
+    private int current_line;
 
     private final String source;
 
@@ -24,6 +24,10 @@ class Lexer {
     Lexer(String source) {
         this.source = source;
         this.tokens = new ArrayList<>();
+
+        this.start_lexeme_offset = 0;
+        this.current_offset = 0;
+        this.current_line = 1;
 
         keywords.put("and", AND);
         keywords.put("class", CLASS);
