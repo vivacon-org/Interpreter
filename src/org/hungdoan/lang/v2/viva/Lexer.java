@@ -1,11 +1,11 @@
-package org.hungdoan.lang.v2;
+package org.hungdoan.lang.v2.viva;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hungdoan.lang.v2.TokenType.*;
+import static org.hungdoan.lang.v2.viva.TokenType.*;
 
 class Lexer {
 

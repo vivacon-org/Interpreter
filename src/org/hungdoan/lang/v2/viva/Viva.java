@@ -1,4 +1,4 @@
-package org.hungdoan.lang.v2;
+package org.hungdoan.lang.v2.viva;
 
 import java.io.BufferedReader;
 import java.io.IOException;

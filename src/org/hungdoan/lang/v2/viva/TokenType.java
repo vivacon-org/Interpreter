@@ -1,4 +1,4 @@
-package org.hungdoan.lang.v2;
+package org.hungdoan.lang.v2.viva;
 
 enum TokenType {
     // Single-character tokens.
