@@ -1,6 +1,6 @@
-package org.hungdoan.lang.evaluator;
+package org.hungdoan.lang.v1.evaluator;
 
-import org.hungdoan.lang.parser.Statement;
+import org.hungdoan.lang.v1.parser.Statement;
 
 public class Evaluator {
 

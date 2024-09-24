@@ -1,6 +1,6 @@
-package org.hungdoan.lang.parser;
+package org.hungdoan.lang.v1.parser;
 
-import org.hungdoan.lang.lexer.Location;
+import org.hungdoan.lang.v1.lexer.Location;
 
 import java.util.Deque;
 import java.util.LinkedList;

@@ -1,7 +1,7 @@
-package org.hungdoan.lang.parser;
+package org.hungdoan.lang.v1.parser;
 
-import org.hungdoan.lang.lexer.Token;
-import org.hungdoan.lang.lexer.TokenType;
+import org.hungdoan.lang.v1.lexer.Token;
+import org.hungdoan.lang.v1.lexer.TokenType;
 
 import java.util.Deque;
 import java.util.LinkedList;

@@ -1,9 +1,9 @@
-package org.hungdoan.lang;
+package org.hungdoan.lang.v1;
 
-import org.hungdoan.lang.lexer.Lexer;
-import org.hungdoan.lang.lexer.Token;
-import org.hungdoan.lang.parser.Parser;
-import org.hungdoan.lang.parser.Program;
+import org.hungdoan.lang.v1.lexer.Lexer;
+import org.hungdoan.lang.v1.lexer.Token;
+import org.hungdoan.lang.v1.parser.Parser;
+import org.hungdoan.lang.v1.parser.Program;
 
 import java.util.Deque;
 import java.util.Scanner;

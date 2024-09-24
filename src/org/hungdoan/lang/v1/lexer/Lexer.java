@@ -1,4 +1,4 @@
-package org.hungdoan.lang.lexer;
+package org.hungdoan.lang.v1.lexer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

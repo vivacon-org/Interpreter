@@ -1,4 +1,4 @@
-package org.hungdoan.lang.lexer;
+package org.hungdoan.lang.v1.lexer;
 
 public class Location {
 

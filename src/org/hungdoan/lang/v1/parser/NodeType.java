@@ -1,4 +1,4 @@
-package org.hungdoan.lang.parser;
+package org.hungdoan.lang.v1.parser;
 
 public enum NodeType {
 
