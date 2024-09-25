@@ -10,7 +10,11 @@ import java.util.List;
 
 public class Viva {
 
-    private static boolean hadError;
+    private static boolean hadCompileError = false;
+
+    private static boolean hadRuntimeError = false;
+
+    private static final Interpreter interpreter = new Interpreter();
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
@@ -30,8 +34,12 @@ public class Viva {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
 
-        if (hadError) {
+        if (hadCompileError) {
             System.exit(65);
+        }
+
+        if (hadRuntimeError) {
+            System.exit(70);
         }
     }
 
@@ -39,12 +47,12 @@ public class Viva {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
-        while (!hadError) {
+        while (!hadCompileError) {
             System.out.print("> ");
             String line = reader.readLine();
             if (line == null) break;
             run(line);
-            hadError = false;
+            hadCompileError = false;
         }
     }
 
@@ -56,9 +64,10 @@ public class Viva {
         Expr expression = parser.parse();
 
         // Stop if there was a syntax error.
-        if (hadError) return;
+        if (hadCompileError) return;
 
-        System.out.println(new ASTPrinter().print(expression));
+        // System.out.println(new ASTPrinter().print(expression));
+        interpreter.interpret(expression);
     }
 
     static void error(int line, String message) {
@@ -74,10 +83,16 @@ public class Viva {
         report(token.line, " at '" + token.lexeme + "'", message);
     }
 
+    static void runtimeError(RuntimeError error) {
+        System.err.println(error.getMessage() +
+                "\n[line " + error.token.line + "]");
+        hadRuntimeError = true;
+    }
+
     private static void report(int line, String where,
                                String message) {
         System.err.println(
                 "[line " + line + "] Error" + where + ": " + message);
-        hadError = true;
+        hadCompileError = true;
     }
 }
