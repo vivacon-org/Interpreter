@@ -18,7 +18,7 @@ public class ReadEvalPerFile {
     }
 
     private static void parser() {
-        String filePath = "./src/resource/test.hung";
+        String filePath = "./src/resource/test.viva";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             Lexer lexer = new Lexer();
             Deque<Token> tokens = lexer.tokenize(reader);
@@ -30,7 +30,7 @@ public class ReadEvalPerFile {
     }
 
     private static void lexer() {
-        String filePath = "./src/resource/test.hung";
+        String filePath = "./src/resource/test.viva";
         Deque<Token> tokenize = new Lexer().tokenize(filePath);
         Iterator<Token> tokens = tokenize.iterator();
         while (tokens.hasNext()) {
