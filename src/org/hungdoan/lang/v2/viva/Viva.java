@@ -39,7 +39,7 @@ public class Viva {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
-        while (true) {
+        while (!hadError) {
             System.out.print("> ");
             String line = reader.readLine();
             if (line == null) break;
@@ -52,14 +52,26 @@ public class Viva {
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
 
-        // For now, just print the tokens.
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
+
+        // Stop if there was a syntax error.
+        if (hadError) return;
+
+        System.out.println(new ASTPrinter().print(expression));
     }
 
     static void error(int line, String message) {
         report(line, "", message);
+    }
+
+    static void error(Token token, String message) {
+        if (token.type == TokenType.EOF) {
+            report(token.line, " at end", message);
+            return;
+        }
+
+        report(token.line, " at '" + token.lexeme + "'", message);
     }
 
     private static void report(int line, String where,

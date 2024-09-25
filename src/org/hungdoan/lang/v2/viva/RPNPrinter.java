@@ -13,7 +13,7 @@ public class RPNPrinter implements Expr.Visitor<String> {
 
     @Override
     public String visitGroupingExpr(Expr.Grouping expr) {
-        return "(" + expr.expression.accept(this) + ")";
+        return expr.expression.accept(this);
     }
 
     @Override
