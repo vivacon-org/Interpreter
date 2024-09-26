@@ -1,4 +1,4 @@
-Viva is an imperative, dynamically typed language, support OOP, first class function, inspired by JS.
+Viva is an imperative, lax, dynamically typed language, support OOP, first class function, inspired by JS.
 
 The current version is implemented based on JVM lang and tree walk interpreter.
 

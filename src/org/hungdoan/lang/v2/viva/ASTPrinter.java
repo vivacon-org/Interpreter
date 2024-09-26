@@ -7,6 +7,16 @@ public class ASTPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        return "var " + expr.name;
+    }
+
+    @Override
+    public String visitAssignExpr(Expr.Assign expr) {
+        return expr.name + " = " + expr.value.accept(this);
+    }
+
+    @Override
     public String visitBinaryExpr(Expr.Binary expr) {
         return parenthesize(expr.operator.lexeme,
                 expr.left, expr.right);

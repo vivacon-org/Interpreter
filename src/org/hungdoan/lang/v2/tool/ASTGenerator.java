@@ -20,7 +20,8 @@ public class ASTGenerator {
                 "Grouping : Expr expression",
                 "Literal  : Object value",
                 "Unary    : Token operator, Expr right",
-                "Variable : Token name"
+                "Variable : Token name",
+                "Assign   : Token name, Expr value"
         ));
 
         defineAst(outputDir, "Stmt", Arrays.asList(
