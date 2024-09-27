@@ -88,6 +88,10 @@ public class Parser {
         return new Stmt.Expression(expr);
     }
 
+    private Expr expression() {
+        return assignment();
+    }
+
     private Expr assignment() {
         Expr expr = equality();
 
@@ -104,10 +108,6 @@ public class Parser {
         }
 
         return expr;
-    }
-
-    private Expr expression() {
-        return equality();
     }
 
     private Expr equality() {
