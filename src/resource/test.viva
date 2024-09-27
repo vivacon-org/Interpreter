@@ -27,4 +27,22 @@ var test2;
 test1 = "assigned";
 print test1; // OK, was assigned first.
 
-print test2; // Error!
+print test2; // nil!
+
+
+{
+    var runner = 0;
+
+    var flag = true;
+
+    while (runner != 10) {
+
+         if (flag) {
+            print runner;
+         }
+
+         runner = runner + 1;
+
+         flag = !flag;
+    }
+}

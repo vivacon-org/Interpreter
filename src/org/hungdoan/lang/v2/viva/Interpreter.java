@@ -25,12 +25,35 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitWhileStmt(Stmt.While stmt) {
+        while (isTruthy(evaluate(stmt.condition))) {
+            execute(stmt.body);
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr) {
+        Object left = evaluate(expr.left);
+
+        if (expr.operator.type == TokenType.OR) {
+            if (isTruthy(left)) {
+                return left;
+            }
+            return evaluate(expr.right);
+        }
+
+        Object right = evaluate(expr.right);
+        return isTruthy(left) && isTruthy(right);
+    }
+
+    @Override
     public Object visitVariableExpr(Expr.Variable expr) {
         Object value = environment.get(expr.name);
 
         if (value == null) {
-            throw new RuntimeError(expr.name, String.format("The variable %s was not initialized before being used",
-                    expr.name.lexeme));
+            //throw new RuntimeError(expr.name, String.format("The variable %s was not initialized before being used",
+            //        expr.name.lexeme));
         }
 
         return value;
@@ -50,6 +73,21 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitBlockStmt(Stmt.Block stmt) {
         executeBlock(stmt.statements, new Environment(environment));
+        return null;
+    }
+
+    @Override
+    public Void visitIfStmt(Stmt.If stmt) {
+        if (isTruthy(evaluate(stmt.condition))) {
+            execute(stmt.thenBranch);
+            return null;
+        }
+
+        if (stmt.elseBranch != null) {
+            execute(stmt.elseBranch);
+            return null;
+        }
+
         return null;
     }
 
